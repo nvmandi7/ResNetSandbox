@@ -1,7 +1,6 @@
 
 import torch
 from torch import nn
-from resnet_dataloader import ResNetDataloader
 
 
 class Trainer:
@@ -32,6 +31,9 @@ class Trainer:
                     print('[%d, %5d] loss: %.3f' %
                         (epoch + 1, i + 1, running_loss / 200))
                     running_loss = 0.0
+    
+    def train_end(self) -> None:
+        pass
             
         
         

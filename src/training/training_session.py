@@ -1,35 +1,43 @@
 
 import torch
 from torch import nn
-from resnet_trainer import Trainer
+from src.training.trainer import Trainer
+from src.training.training_config import TrainingConfig
 
 
 class TrainingSession:
     def __init__(self, config) -> None:
         self.config = config
 
-
-    def train(self, epochs: int) -> None:
-        for epoch in range(epochs):
-            print(f"Epoch {epoch+1}/{epochs}")
-            running_loss = 0.0
-            for i, batch in enumerate(self.dataloader, 0):
-                x, y = batch
-                x, y = x.to(self.device), y.to(self.device)
-
-                self.optimizer.zero_grad()
-                y_pred = self.model(x)
-                loss = self.loss_fn(y_pred, y)
-                loss.backward()
-                self.optimizer.step()
-
-                running_loss += loss.item()
-                if i % 200 == 199: # Print every 200 mini-batches
-                    print('[%d, %5d] loss: %.3f' %
-                        (epoch + 1, i + 1, running_loss / 200))
-                    running_loss = 0.0
-    
-    def train_end()
-            
+    def run(self):
+        self.extract_fields_from_config()
+        self.configure_device()
+        self.create_trainer()
         
-        
+    # Perhaps organize into data, model, training, etc.
+    def extract_fields_from_config(self):
+        self.model = self.config.model
+        self.train_dataloader = self.config.train_dataloader
+        self.optimizer = self.config.optimizer
+        ...
+
+    def configure_device(self):
+        self.config.device = torch.device(
+            "cuda" if torch.cuda.is_available() else "cpu"
+        )
+        # self.model.to(self.device)
+
+    def create_trainer(self):
+        self.trainer = Trainer(
+            model=self.model,
+            train_dataloader=self.train_dataloader,
+            optimizer=self.optimizer,
+            config=self.config,
+        )
+
+
+
+if __name__ == "__main__":
+    config = TrainingConfig.parse_args()
+    session = TrainingSession(config)
+    session.run()

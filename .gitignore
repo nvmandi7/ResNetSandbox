@@ -1,0 +1,13 @@
+
+# VSCode
+.vscode/*
+*.code-workspace
+
+# Python
+**/__pycache__/*
+
+# data
+data/*
+
+# scratch
+scratch/*
