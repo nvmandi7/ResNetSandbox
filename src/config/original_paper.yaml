@@ -2,12 +2,13 @@
 # Original paper: https://arxiv.org/abs/1512.03385
 
 config:
-  dataset: tiny-imagenet-200
-  model: resnet18
+  dataset_path: data/tiny-imagenet-200/train
+  transform: base_transform
+  model: ResNet18
 
   train:
-    epochs: 350
-    batch_size: 128
+    epochs: 5
+    batch_size: 32
     transform: base_transform
     
     num_workers: 4
@@ -16,15 +17,13 @@ config:
 
     optimizer:
       name: SGD
-      params:
-        lr: 0.1
-        momentum: 0.9
-        weight_decay: 5e-4
+      lr: 0.1
+      momentum: 0.9
+      weight_decay: 5e-4
 
     scheduler:
       name: MultiStepLR
-      params:
-        milestones: [150, 250]
-        gamma: 0.1
+      milestones: [150, 250]
+      gamma: 0.1
 
 

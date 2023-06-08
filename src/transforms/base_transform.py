@@ -1,18 +1,20 @@
 
 import torch
 import torchvision.transforms as transforms
+from PIL import Image
 
 # TODO determine how to structure this code, how it will be used by training session
+# - option: make a class to hold the options, and a choose method that essentially routes string to bound var with a dict
 
-transforms.Compose([
-            # Resize the image to have shorter side randomly sampled in [256, 480]. Then flip with p = 0.5 and randomly crop to 224x224
-            transforms.Resize(256),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomCrop(32, padding=4),
-            # per-pixel mean subtraction
-            # standard color augmentation
-            transforms.ToTensor(),
-        ])
+base_transform = transforms.Compose([
+    # Resize the image to have shorter side randomly sampled in [256, 480]. Then flip with p = 0.5 and randomly crop to 224x224
+    transforms.Resize(256),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomCrop(32, padding=4),
+    # per-pixel mean subtraction
+    # standard color augmentation
+    transforms.ToTensor(),
+])
 
 
 
