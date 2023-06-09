@@ -14,7 +14,10 @@ class Trainer:
 
     def run(self):
         print(f"Starting training model {self.model.__class__.__name__}")
+        print(f"Loss function: {self.loss_fn.__class__.__name__}")
+        print(f"Optimizer: {self.optimizer.__class__.__name__}")
         print(f"Device: {self.device}")
+        print(f"Total Batches per Epoch: {len(self.dataloader)}")
 
         self.model.to(self.device)
         for epoch in range(self.epochs):
@@ -44,5 +47,10 @@ class Trainer:
             if batch_index % 50 == 0:
                 print(f'[{epoch + 1}, {batch_index + 1}] loss: {running_loss / 100:.3f}')
                 running_loss = 0.0
+
+                # Health check on gradients
+                for name, param in self.model.named_parameters():
+                    if param.requires_grad:
+                        print(f"Gradient for {name} - min: {param.grad.min()} max: {param.grad.max()}")
         
         

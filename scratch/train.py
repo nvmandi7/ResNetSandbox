@@ -43,7 +43,7 @@ def main():
     loss_fn = nn.CrossEntropyLoss()
     optimizer = SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-4)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    epochs = 5
+    epochs = 3
 
     trainer = Trainer(
         model=model,

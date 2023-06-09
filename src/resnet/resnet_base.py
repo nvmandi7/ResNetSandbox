@@ -3,7 +3,7 @@ import torch
 from torch import nn
 
 class ResNetBase(nn.Module):
-    def __init__(self, in_channels) -> None:
+    def __init__(self, in_channels=3) -> None:
         super().__init__()
 
         self._set_stem(in_channels)
