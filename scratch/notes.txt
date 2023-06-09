@@ -1,0 +1,67 @@
+
+
+
+Next steps:
+- Set up TrainingSession and config (reading args?)
+- Scheduler, transforms
+- Go back through "Implementation" section of paper and assure all details met, transforms
+- Set up validation and monitoring
+- Metablock!
+- Script to download dataset?
+
+Questions
+- Argpase for model name, transform name. is eval() okay?
+-   Generally understanding how to make clean interface for args
+- **Use the class to choose between them
+- training on vagabond
+
+
+
+
+
+
+
+
+---------------------------------
+
+
+Questions beyond model implementation
+- Do you often use ImageFolder or DatasetFolder, or just start from scratch (Dataset) if not using exact classic dataset like CIFAR10 or ImageNet
+- Why does ImageFolder work even though my directory structure is different from the documentation
+
+- Where to put code for train/valid/test loops. Learn a good extensible strategy here
+- Eval vs validation. How did they do validation for ResNet (50k images), at what part of the loop?
+
+
+- Organizing the code well such that it’s easy to find functionality and know where to put it. (Adding to path?)
+- Behind the scenes on torchvision.datasets.ImageFolder and DatasetFolder within ImageNet and others.
+    - Pytorch design decision, inheritance but with methods loose in files instead of on classes, pros/cons?
+- If we design this repo for multiple models, multiple datasets (adding CIFAR and EfficientNet/ConvNeXt), how to organize it. One TrainingSession, Trainer. Configs for seeting hparams, transforms, metrics?
+- Dataloader: examples I see don't reimplement it. Where do we run the transforms, and to we have any other custom code?
+- Recommendation for downloading ImageNet
+- Organization choices for grouping transforms. Should we put the transforms in separate classes? 
+
+
+-----------------------
+
+Next phases
+- Full project: Set up Dataset, Dataloader, training loop, monitoring, eval
+- MetaBlocks!! :)
+- New models: build up to ConvNeXt
+- Personal project: BirdVAE??
+
+
+
+Questions on ResNet:
+- Do we really just average all 7x7 into 1? Is that not wasteful of our rich semantic features?
+- How do we decide which layers have bias term?
+- Python style Q: how to leave variable in interface as mandatory to implement
+- Q: How to reshape in a sequential?
+- Look at model summary for resnet18 and 50
+- TODO: bias=False on layers before BatchNorm
+
+
+
+
+src, tests, requirements.txt w/ version nums, data, 
+src: training, eval, 
