@@ -12,7 +12,7 @@ class Trainer:
         self.device = device
         self.epochs = epochs
 
-    def run(self):
+    def train(self):
         print(f"Starting training model {self.model.__class__.__name__}")
         print(f"Loss function: {self.loss_fn.__class__.__name__}")
         print(f"Optimizer: {self.optimizer.__class__.__name__}")

@@ -1,7 +1,7 @@
 
 import torch
 
-from src.transforms.base_transform import base_transform
+from src.transforms.resize_flip_crop import base_transform
 import torchvision
 
 

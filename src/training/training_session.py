@@ -3,11 +3,12 @@ import torch
 from torch import nn
 from src.training.trainer import Trainer
 from src.training.training_config import TrainingConfig
-from src.transforms.base_transform import base_transform
+from src.transforms.transform_selector import TransformSelector
+from src.transforms.debug_selector import DebugSelector
 
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
-from torch.optim import SGD
+from torch import optim
 
 
 
@@ -21,6 +22,7 @@ class TrainingSession:
         self.create_model()
         self.configure_training()
         self.create_trainer()
+        self.trainer.train()
         
     def configure_device(self):
         if self.config.device == "auto":
@@ -31,9 +33,10 @@ class TrainingSession:
             self.config.device = torch.device(self.config.device)
 
     def set_up_data(self):
+        transform = TransformSelector.parse_transform(config.transform)
         self.dataset = ImageFolder(
             root=self.config.dataset_path,
-            transform=base_transform, # TODO make configurable
+            transform=transform,
         )
 
         self.dataloader = DataLoader(
@@ -47,11 +50,14 @@ class TrainingSession:
         self.model = eval(self.config.model)(in_channels=3)
     
     def configure_training(self):
-        self.loss_fn = nn.CrossEntropyLoss()
+        self.loss_fn = eval('nn.' + config.loss_fn)()
 
-        self.optimizer = SGD(self.model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-4)
-        ...
-
+        self.optimizer = eval('optim.' + config.optimizer)(
+            self.model.parameters(),
+            lr=config.lr,
+            momentum=config.momentum,
+            weight_decay=config.weight_decay
+        )
 
     def create_trainer(self):
         self.trainer = Trainer(
@@ -62,6 +68,10 @@ class TrainingSession:
             device=self.device,
             epochs=self.epochs
         )
+    
+    def configure_debug(self):
+        if config.debug:
+            outputs = DebugSelector.parse_debug(config.debug, self.model)
 
 
 

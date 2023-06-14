@@ -10,10 +10,15 @@ Next steps:
 - Script to download dataset?
 
 Questions
+- From where to add hooks, keep stateful outputs?
+- Mapware: check what was in epoch_end fns
+
+
 - Argpase for model name, transform name. is eval() okay?
 -   Generally understanding how to make clean interface for args
 - **Use the class to choose between them
 - training on vagabond
+
 
 
 

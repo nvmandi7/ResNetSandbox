@@ -2,28 +2,28 @@
 # Original paper: https://arxiv.org/abs/1512.03385
 
 config:
-  dataset_path: data/tiny-imagenet-200/train
+  device: cuda
+
   transform: base_transform
+  dataset_path: data/tiny-imagenet-200/train
+  batch_size: 32
+  num_workers: 4
+
   model: ResNet18
+  
+  loss_fn: CrossEntropyLoss
+  optimizer:
+    name: SGD
+    lr: 0.001
+    momentum: 0.9
+    weight_decay: 5e-4
 
-  train:
-    epochs: 5
-    batch_size: 32
-    transform: base_transform
-    
-    num_workers: 4
-    device: cuda
-    # save_dir: ./checkpoints/
+  scheduler:
+    name: MultiStepLR
+    milestones: [150, 250]
+    gamma: 0.1
 
-    optimizer:
-      name: SGD
-      lr: 0.1
-      momentum: 0.9
-      weight_decay: 5e-4
+  epochs: 5
 
-    scheduler:
-      name: MultiStepLR
-      milestones: [150, 250]
-      gamma: 0.1
-
+  debug: false
 

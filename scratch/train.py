@@ -37,13 +37,23 @@ def main():
 
     # model
     model = ResNet18(3)
-    # model2 = torchvision.models.resnet18(weights=False, num_classes=200)
+    # model2 = torchvision.models.resnet18(num_classes=200)
 
     # optimization
     loss_fn = nn.CrossEntropyLoss()
     optimizer = SGD(model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-4)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     epochs = 3
+    torch.autograd.set_detect_anomaly(True)
+
+    outputs = {}
+    def hook(module, input, output):
+        outputs[module.__class__.__name__] = output
+        print(output.detach())
+
+    model.stem.register_forward_hook(hook)
+    model.block_stack.register_forward_hook(hook)
+    model.classification_head.register_forward_hook(hook)
 
     trainer = Trainer(
         model=model,
