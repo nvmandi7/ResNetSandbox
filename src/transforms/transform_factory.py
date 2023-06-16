@@ -1,11 +1,34 @@
 
+import importlib
 import torch
 from torch import transforms
 
-class TransformSelector:
+class BaseTransform:
+    def __init__(self) -> None:
+        self.transform = transforms.Compose([
+            transforms.Resize(256),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomCrop(32, padding=4),
+            transforms.ToTensor(),
+        ])
+
+    def __call__(self, x):
+        return self.transform(x)
+
+
+class TransformFactory:
     '''
     Choose from a set of prebuilt transforms by name
     '''
+
+
+
+    @classmethod
+    def transform_from_name(cls, class_name: str):
+        module = importlib.import_module(module_name)
+        class_ = getattr(module, class_name)
+        instance = class_()
+
 
     transforms = {
         'null_transform': TransformSelector.create_null_transform,

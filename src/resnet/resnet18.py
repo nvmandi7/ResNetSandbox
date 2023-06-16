@@ -23,7 +23,7 @@ class ResNet18(ResNetBase):
             Block(3, 512, 512),
         )
 
-    
+
 
 if __name__ == "__main__":
     model = ResNet18(3)
@@ -31,4 +31,9 @@ if __name__ == "__main__":
     print(summary(model, x))
     x = model(x)
     print(f"X shape: {x.shape}")
+
+    for mod in model.named_parameters():
+        print(mod[0])
+        if hasattr(mod, "weight"):
+            print("      has weight")
 

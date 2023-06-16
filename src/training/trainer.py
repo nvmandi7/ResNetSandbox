@@ -21,7 +21,7 @@ class Trainer:
 
         self.model.to(self.device)
         for epoch in range(self.epochs):
-            print(f"EPOCH {epoch+1}/{self.epochs}")
+            print(f"\nEPOCH {epoch + 1}/{self.epochs}")
             self.train_epoch(epoch)
         
         torch.save(self.model.state_dict(), "models/model.pth")
@@ -42,10 +42,10 @@ class Trainer:
             loss.backward()
             self.optimizer.step()
 
-            # View progress every 50 mini-batches
+            # View progress every 100 mini-batches
             running_loss += loss.item()
-            if batch_index % 50 == 0:
-                print(f'[{epoch + 1}, {batch_index + 1}] loss: {running_loss / 100:.3f}')
+            if batch_index % 100 == 0:
+                print(f'[Batch {batch_index + 1}] loss: {running_loss / 100:.6f}')
                 running_loss = 0.0
 
                 # Health check on gradients

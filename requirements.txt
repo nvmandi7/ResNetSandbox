@@ -1,0 +1,4 @@
+torch
+pandas
+pydantic
+pytorch_model_summary

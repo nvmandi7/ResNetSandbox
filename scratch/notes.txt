@@ -1,6 +1,14 @@
 
 
 
+tests
+- Test each layer, dimensions
+- Learning rate, training mode / eval mode
+- Clearing grads
+- Testing dataset and manipulation
+    - Write tests for: each preprocessing step, windowing
+- black formatter or similar
+
 Next steps:
 - Set up TrainingSession and config (reading args?)
 - Scheduler, transforms

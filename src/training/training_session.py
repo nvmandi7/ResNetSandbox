@@ -3,7 +3,7 @@ import torch
 from torch import nn
 from src.training.trainer import Trainer
 from src.training.training_config import TrainingConfig
-from src.transforms.transform_selector import TransformSelector
+from src.transforms.transform_factory import TransformFactory
 from src.transforms.debug_selector import DebugSelector
 
 from torchvision.datasets import ImageFolder
@@ -22,6 +22,7 @@ class TrainingSession:
         self.create_model()
         self.configure_training()
         self.create_trainer()
+        self.configure_debug()
         self.trainer.train()
         
     def configure_device(self):
@@ -33,7 +34,8 @@ class TrainingSession:
             self.config.device = torch.device(self.config.device)
 
     def set_up_data(self):
-        transform = TransformSelector.parse_transform(config.transform)
+        transform = TransformFactory.transform_from_name(config.transform_name)
+        # transform = TransformSelector.parse_transform(config.transform)
         self.dataset = ImageFolder(
             root=self.config.dataset_path,
             transform=transform,

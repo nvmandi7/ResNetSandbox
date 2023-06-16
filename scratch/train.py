@@ -37,7 +37,7 @@ def main():
 
     # model
     model = ResNet18(3)
-    # model2 = torchvision.models.resnet18(num_classes=200)
+    # model = torchvision.models.resnet18(num_classes=200)
 
     # optimization
     loss_fn = nn.CrossEntropyLoss()
@@ -49,7 +49,7 @@ def main():
     outputs = {}
     def hook(module, input, output):
         outputs[module.__class__.__name__] = output
-        print(output.detach())
+        print("HOOK OUTPUT: ", output.detach())
 
     model.stem.register_forward_hook(hook)
     model.block_stack.register_forward_hook(hook)
@@ -64,7 +64,7 @@ def main():
         epochs=epochs
     )
 
-    trainer.run()
+    trainer.train()
 
 
 if __name__ == "__main__":

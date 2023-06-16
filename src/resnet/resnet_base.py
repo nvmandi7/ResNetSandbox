@@ -1,6 +1,7 @@
 
 import torch
 from torch import nn
+import torch.nn.init as init
 
 class ResNetBase(nn.Module):
     def __init__(self, in_channels=3) -> None:
@@ -12,6 +13,8 @@ class ResNetBase(nn.Module):
 
         self.final_channels = self.block_stack[-1].out_channels
         self._set_classification_head()
+        # self._init_weights()
+
 
     def _set_stem(self, in_channels):
         self.stem = nn.Sequential(
@@ -32,6 +35,12 @@ class ResNetBase(nn.Module):
             nn.Softmax(dim=1)
         )
 
+    def _init_weights(self):
+        for m in self.modules():
+            if hasattr(m, "weight"):
+                init.xavier_uniform_(m.weight, gain=0.1)
+            # if hasattr(m, "bias"):
+            #     init.constant_(m.bias, 0.0)
 
     def forward(self, x):
         batch_size = x.shape[0]
